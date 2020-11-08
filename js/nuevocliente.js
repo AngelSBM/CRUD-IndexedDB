@@ -37,6 +37,31 @@
 
         if( nombre.value === '' || email.value === '' || telefono.value === '' || empresa.value === '' ){
             imprimir('Todos los campos son obligatorios', 'error');
+
+            return
+        }
+
+        const cliente = {
+            nombre: nombre.value,
+            email: email.value,
+            telefono: telefono.value,
+            empresa: empresa.value,
+            id: Date.now()
+        }
+
+        const transaction = DB.transaction(['crm'], 'readwrite');
+        const objectStore = transaction.objectStore('crm');
+        const request = objectStore.add(cliente);
+
+        request.onsuccess = function(){
+            imprimir('Cliente añadido');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+        }
+
+        request.onerror = function(){
+            console.log('Hubo un error al añadir un cliente');
         }
 
     }
