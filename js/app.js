@@ -28,7 +28,7 @@
             objectStore.createIndex('telefono', 'telefono', {unique: true});
             objectStore.createIndex('empresa', 'empresa', {unique: false});
             objectStore.createIndex('id', 'id', {unique: true});
-            
+
         }
 
         request. onerror = function(){
