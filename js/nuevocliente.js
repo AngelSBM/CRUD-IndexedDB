@@ -3,8 +3,9 @@
     //SELECTORES
     const formulario = document.querySelector('#formulario');
     const nombre = document.querySelector('#nombre');
-    const correo = document.querySelector('#email');
-    const telefono = document.querySelector('#empresa');
+    const email = document.querySelector('#email');
+    const telefono = document.querySelector('#telefono');
+    const empresa = document.querySelector('#empresa');
     ///////////
 
     let DB;
