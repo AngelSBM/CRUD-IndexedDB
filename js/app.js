@@ -1,10 +1,18 @@
 (function(){
     
+    //Selectores
+
     let DB;
     const indexedDB = window.indexedDB;
     const tabla = document.querySelector('#listado-clientes');
 
-    document.addEventListener('DOMContentLoaded', crearDB);
+    document.addEventListener('DOMContentLoaded', () => {
+        crearDB();
+
+        const tabla = document.querySelector('tbody');
+        tabla.addEventListener('click', eliminar);
+    });
+    
 
     function crearDB(){
         const request = indexedDB.open('crm', 1);
@@ -80,11 +88,41 @@
             </td>
             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5">
                 <a href="editar-cliente.html?id=${cliente.id}" class="text-teal-600 hover:text-teal-900 mr-5">Editar</a>
-                <a href="#" data-cliente="${cliente.id}" class="text-red-600 hover:text-red-900">Eliminar</a>
+                <a href="#" data-cliente="${cliente.id}" class="text-red-600 hover:text-red-900 eliminar">Eliminar</a>
             </td>
         `;
 
         tabla.appendChild(clienteHTML)
+    }
+
+    function eliminar(e){
+        
+        if(e.target.classList.contains('eliminar')){
+            e.preventDefault()
+
+            const hola = e.target.getAttribute('data-cliente');
+            
+            const transaction = DB.transaction(['crm'], 'readwrite');
+            const objectStore = transaction.objectStore('crm');
+            const request = objectStore.delete(Number(hola));
+
+            request.onsuccess = function(){
+                console.log('cliente eliminado');
+            }
+            request.onerror = function(){
+                console.log('hubo un error elimnado al cliente')
+            }
+
+            limpiarHTML();
+
+            function limpiarHTML(){
+                while(tabla.firstChild){
+                    tabla.firstChild.remove()
+                }
+            }
+            readData()
+            
+        }
     }
 
 })()
