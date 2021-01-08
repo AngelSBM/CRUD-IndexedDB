@@ -120,7 +120,7 @@
                     tabla.firstChild.remove()
                 }
             }
-            readData()
+            readData();
             
         }
     }
